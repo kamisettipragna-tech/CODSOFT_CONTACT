@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Book - CodSoft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            color: #fff;
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header h1 span {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.4);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-card .number {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .stat-card .label {
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 25px;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .form-card h2 {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #6366f1;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255,255,255,0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .contacts-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .contacts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .contacts-header h2 {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.2);
+        }
+
+        .search-box button {
+            padding: 10px 15px;
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-box button:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        .contact-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .contact-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .contact-list::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+
+        .contact-list::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .contact-item:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.05);
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-info .name {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .contact-info .details {
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .contact-info .details span {
+            margin-right: 15px;
+        }
+
+        .contact-info .details i {
+            margin-right: 5px;
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .contact-actions button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .contact-actions .edit-btn {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+        }
+
+        .contact-actions .edit-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        .contact-actions .delete-btn {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .contact-actions .delete-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(255,255,255,0.2);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            background: rgba(239, 68, 68, 0.9);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 450px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: pop 0.3s ease;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal h3 {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .modal .form-group input {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.15);
+            font-size: 12px;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .contacts-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .contact-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .contact-actions {
+                width: 100%;
+            }
+
+            .contact-actions button {
+                flex: 1;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📇 <span>Contact</span> Book</h1>
+            <p>CodSoft Internship Project • Manage your contacts</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="number" id="totalContacts">0</div>
+                <div class="label">Total Contacts</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="recentCount">0</div>
+                <div class="label">Recent Additions</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="form-card">
+                <h2 id="formTitle">➕ Add Contact</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="nameInput" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="text" id="phoneInput" placeholder="+1 234 567 8900" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="emailInput" placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" id="addressInput" placeholder="123 Main St, City">
+                    </div>
+                    <input type="hidden" id="editId" value="">
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">💾 Save Contact</button>
+                        <button type="button" class="btn btn-secondary" id="cancelBtn" style="display:none;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="contacts-card">
+                <div class="contacts-header">
+                    <h2>📋 All Contacts</h2>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search by name or phone...">
+                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="contact-list" id="contactList">
+                    <div class="empty-state">
+                        <i class="fas fa-address-book"></i>
+                        <p>No contacts yet.<br>Add your first contact!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">Developed for CodSoft Internship • Python Flask</div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <h3>✏️ Edit Contact</h3>
+            <form id="editForm">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="text" id="editPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="editEmail">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="editAddress">
+                </div>
+                <input type="hidden" id="editIdModal">
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">💾 Update</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONTACT BOOK - 100% CLIENT SIDE
+        // Saves contacts in browser LocalStorage!
+        // ============================================
+
+        let contacts = [];
+        let editingId = null;
+
+        // DOM Elements
+        const contactList = document.getElementById('contactList');
+        const totalContacts = document.getElementById('totalContacts');
+        const recentCount = document.getElementById('recentCount');
+        const contactForm = document.getElementById('contactForm');
+        const nameInput = document.getElementById('nameInput');
+        const phoneInput = document.getElementById('phoneInput');
+        const emailInput = document.getElementById('emailInput');
+        const addressInput = document.getElementById('addressInput');
+        const editId = document.getElementById('editId');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const formTitle = document.getElementById('formTitle');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const toast = document.getElementById('toast');
+
+        // Edit Modal Elements
+        const editModal = document.getElementById('editModal');
+        const editForm = document.getElementById('editForm');
+        const editName = document.getElementById('editName');
+        const editPhone = document.getElementById('editPhone');
+        const editEmail = document.getElementById('editEmail');
+        const editAddress = document.getElementById('editAddress');
+        const editIdModal = document.getElementById('editIdModal');
+
+        // ============================================
+        // LOAD CONTACTS FROM LOCALSTORAGE
+        // ============================================
+        function loadContacts() {
+            const saved = localStorage.getItem('contacts');
+            if (saved) {
+                try {
+                    contacts = JSON.parse(saved);
+                } catch {
+                    contacts = [];
+                }
+            } else {
+                contacts = [];
+            }
+            renderContacts(contacts);
+            updateStats();
+        }
+
+        // ============================================
+        // SAVE CONTACTS TO LOCALSTORAGE
+        // ============================================
+        function saveContacts() {
+            localStorage.setItem('contacts', JSON.stringify(contacts));
+        }
+
+        // ============================================
+        // RENDER CONTACTS
+        // ============================================
+        function renderContacts(contactsToRender) {
+            if (!contactsToRender || contactsToRender.length === 0) {
+                contactList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-address-book"></i>
+                        <p>No contacts yet.<br>Add your first contact!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            contactList.innerHTML = contactsToRender.map(contact => `
+                <div class="contact-item">
+                    <div class="contact-info">
+                        <div class="name">${escapeHtml(contact.name)}</div>
+                        <div class="details">
+                            <span><i class="fas fa-phone"></i>${escapeHtml(contact.phone)}</span>
+                            ${contact.email ? `<span><i class="fas fa-envelope"></i>${escapeHtml(contact.email)}</span>` : ''}
+                            ${contact.address ? `<span><i class="fas fa-map-marker-alt"></i>${escapeHtml(contact.address)}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="contact-actions">
+                        <button class="edit-btn" onclick="openEditModal(${contact.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteContact(${contact.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================
+        // ESCAPE HTML
+        // ============================================
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ============================================
+        // UPDATE STATS
+        // ============================================
+        function updateStats() {
+            totalContacts.textContent = contacts.length;
+            const recent = contacts.slice(-5);
+            recentCount.textContent = recent.length;
+        }
+
+        // ============================================
+        // ADD / UPDATE CONTACT - SAVES TO LOCALSTORAGE!
+        // ============================================
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const email = emailInput.value.trim();
+            const address = addressInput.value.trim();
+
+            if (!name || !phone) {
+                showToast('⚠️ Name and Phone are required!', 'error');
+                return;
+            }
+
+            if (editingId !== null) {
+                // UPDATE existing contact
+                const index = contacts.findIndex(c => c.id === editingId);
+                if (index !== -1) {
+                    contacts[index] = {
+                        ...contacts[index],
+                        name: name,
+                        phone: phone,
+                        email: email,
+                        address: address
+                    };
+                }
+                showToast('✅ Contact updated!');
+            } else {
+                // ADD new contact
+                const newContact = {
+                    id: contacts.length > 0 ? Math.max(...contacts.map(c => c.id)) + 1 : 1,
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    address: address
+                };
+                contacts.push(newContact);
+                showToast('✅ Contact added!');
+            }
+
+            saveContacts();
+            renderContacts(contacts);
+            updateStats();
+            resetForm();
+        });
+
+        // ============================================
+        // DELETE CONTACT
+        // ============================================
+        function deleteContact(id) {
+            if (!confirm('Delete this contact?')) return;
+
+            contacts = contacts.filter(c => c.id !== id);
+            saveContacts();
+            renderContacts(contacts);
+            updateStats();
+            showToast('🗑️ Contact deleted!');
+        }
+
+        // ============================================
+        // EDIT CONTACT - MODAL
+        // ============================================
+        function openEditModal(id) {
+            const contact = contacts.find(c => c.id === id);
+            if (!contact) return;
+
+            editName.value = contact.name;
+            editPhone.value = contact.phone;
+            editEmail.value = contact.email || '';
+            editAddress.value = contact.address || '';
+            editIdModal.value = id;
+
+            editModal.classList.add('active');
+        }
+
+        function closeEditModal() {
+            editModal.classList.remove('active');
+        }
+
+        editForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const id = parseInt(editIdModal.value);
+            const name = editName.value.trim();
+            const phone = editPhone.value.trim();
+            const email = editEmail.value.trim();
+            const address = editAddress.value.trim();
+
+            if (!name || !phone) {
+                showToast('Name and Phone are required!', 'error');
+                return;
+            }
+
+            const index = contacts.findIndex(c => c.id === id);
+            if (index !== -1) {
+                contacts[index] = {
+                    ...contacts[index],
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    address: address
+                };
+            }
+
+            saveContacts();
+            renderContacts(contacts);
+            updateStats();
+            closeEditModal();
+            showToast('✅ Contact updated!');
+        });
+
+        // ============================================
+        // SEARCH
+        // ============================================
+        function searchContacts() {
+            const query = searchInput.value.toLowerCase().trim();
+            if (!query) {
+                renderContacts(contacts);
+                return;
+            }
+
+            const results = contacts.filter(c => 
+                c.name.toLowerCase().includes(query) || 
+                c.phone.includes(query)
+            );
+            renderContacts(results);
+        }
+
+        searchBtn.addEventListener('click', searchContacts);
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') searchContacts();
+            if (this.value === '') renderContacts(contacts);
+        });
+
+        // ============================================
+        // RESET FORM
+        // ============================================
+        function resetForm() {
+            nameInput.value = '';
+            phoneInput.value = '';
+            emailInput.value = '';
+            addressInput.value = '';
+            editId.value = '';
+            editingId = null;
+            submitBtn.textContent = '💾 Save Contact';
+            formTitle.textContent = '➕ Add Contact';
+            cancelBtn.style.display = 'none';
+        }
+
+        cancelBtn.addEventListener('click', resetForm);
+
+        // ============================================
+        // TOAST
+        // ============================================
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = 'toast';
+            if (type === 'error') toast.classList.add('error');
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        console.log('📇 Contact Book Loaded!');
+        console.log('✅ Contacts saved in browser LocalStorage!');
+        loadContacts();
+    </script>
+</body>
+</html>
